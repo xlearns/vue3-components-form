@@ -19,6 +19,11 @@
           let state = reactive({
           	fields:[]
           })
+          const resetFields = function() {
+            state.fields.forEach(field => {
+              field.resetField();
+            });
+          }
           //parent created > child created > child mounted > parent mounted
           provide('form',proxy)
           provide('on-form-item-add',(field)=>{
@@ -27,10 +32,12 @@
           provide('on-form-item-remove',(field) => {
             if (field.prop) state.fields.splice(state.fields.indexOf(field), 1);
             })
+
           onMounted(()=>{
           	// console.log(state.fields)
           })
           return {
+            resetFields,
           	...toRefs(state)
           }
         }

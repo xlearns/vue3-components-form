@@ -79,6 +79,7 @@
       const resetField  = function () {
         state.validateState = '';
         state.validateMessage = '';
+       
         form.modelValue[props.prop] = state.initialValue;
       }
 
@@ -114,6 +115,7 @@
       })
 
       return {
+        resetField,
         ...toRefs(state)
       }
     }

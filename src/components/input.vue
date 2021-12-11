@@ -7,7 +7,7 @@
          />
 </template>
 <script type='ts'>
-	import {defineComponent,inject,toRefs,reactive} from 'vue'
+	import {defineComponent,inject,toRefs,reactive,watch} from 'vue'
 	export default defineComponent({
 		props:{
 			modelValue:''
@@ -15,6 +15,9 @@
 		setup(props,{emit}){
 			let state = reactive({
 				currentValue:props.modelValue
+			})
+			watch(()=>props.modelValue,()=>{
+				state.currentValue = props.modelValue
 			})
 			let change = inject('on-form-change')
 			let blur = inject('on-form-blur')

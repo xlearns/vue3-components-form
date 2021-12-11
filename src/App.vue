@@ -1,5 +1,5 @@
 <template>
-	<formDom v-model="formValidate" :rules="ruleValidate">
+	<formDom v-model="formValidate" :rules="ruleValidate" ref='formRef'>
       <formItemDom label="用户名" prop="name">
         <inputDom v-model="formValidate.name"></inputDom>
       </formItemDom>
@@ -7,6 +7,7 @@
         <inputDom v-model="formValidate.mail"></inputDom>
       </formItemDom>
     </formDom>
+    <button @click='reset'>reset</button>
 </template>
 <script lang="ts">
 import { defineComponent, onMounted, ref,toRefs,reactive} from "vue";
@@ -20,6 +21,8 @@ export default defineComponent({
 		inputDom
 	},
 	setup() {
+		let formRef =ref()
+
 		let state = reactive({
 			formValidate: {
           name: '',
@@ -35,7 +38,13 @@ export default defineComponent({
           ],
         }
 		})
+		const reset = function(){
+			formRef.value.resetFields()
+		}
+
 		return {
+			reset,
+			formRef,
 			...toRefs(state)
 		}
 	},
