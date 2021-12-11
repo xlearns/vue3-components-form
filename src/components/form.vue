@@ -19,6 +19,29 @@
           let state = reactive({
           	fields:[]
           })
+
+         const validate = function(callback) {
+            return new Promise(resolve => {
+              let valid = true;
+              let count = 0;
+              state.fields.forEach(field => {
+                field.validate('change', errors => {
+                  if (errors) {
+                    valid = false;
+                  }
+
+                  if (++count === state.fields.length) {
+                      // 全部完成
+                      resolve(valid);
+                    if (typeof callback === 'function') {
+                      callback(valid);
+                    }
+                  }
+                });
+              });
+            });
+          }
+
           const resetFields = function() {
             state.fields.forEach(field => {
               field.resetField();
@@ -37,6 +60,7 @@
           	// console.log(state.fields)
           })
           return {
+            validate,
             resetFields,
           	...toRefs(state)
           }

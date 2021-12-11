@@ -7,10 +7,12 @@
         <inputDom v-model="formValidate.mail"></inputDom>
       </formItemDom>
     </formDom>
+    <button @click='submit'>submit</button>
     <button @click='reset'>reset</button>
 </template>
 <script lang="ts">
 import { defineComponent, onMounted, ref,toRefs,reactive} from "vue";
+import myAlert from '@/components/alert'
 import formDom from "@/components/form.vue";
 import formItemDom from "@/components/formItem.vue";
 import inputDom from '@/components/input.vue'
@@ -41,8 +43,21 @@ export default defineComponent({
 		const reset = function(){
 			formRef.value.resetFields()
 		}
+		const submit = function(){
+			formRef.value.validate().then(v=>{
+				if(!v){
+					return myAlert.msg({
+						content:"fail!!"
+					})
+				}
+				myAlert.msg({
+						content:"success!!"
+					})
+			})
+		}
 
 		return {
+			submit,
 			reset,
 			formRef,
 			...toRefs(state)

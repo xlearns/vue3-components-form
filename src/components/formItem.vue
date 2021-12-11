@@ -45,13 +45,12 @@
 
       const getFilteredRule = function(trigger) {
         const rules = getRules();
-
+      
         return rules.filter(rule => !rule.trigger || rule.trigger.indexOf(trigger) !== -1);
       }
 
       const validate = function(trigger, callback = function () {}){
         let rules = getFilteredRule(trigger);
-       
         if (!rules || rules.length === 0) {
           return true;
         }
@@ -66,6 +65,7 @@
        
         model[props.prop] = fieldValue.value
         
+
 
         validator.validate(model, { firstFields: true }, errors => {
           state.validateState = !errors ? 'success' : 'error';
@@ -115,6 +115,7 @@
       })
 
       return {
+        validate,
         resetField,
         ...toRefs(state)
       }
